@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mitmproxy-reverse:
+    image: mitmproxy/mitmproxy
+    container_name: mitmproxy-r
+    tty: true
+    ports:
+      - 8080:8080
+      - 8081:8081
+    command: mitmweb --web-host 0.0.0.0 --mode reverse:http://wttr:8080
+  wttr:
+    build:
+      context: .
+    image: wttr
+    container_name: wttr
+    tty: true
+    ports:
+      - 18080:8080
+    depends_on:
+      - mitmproxy-reverse
+

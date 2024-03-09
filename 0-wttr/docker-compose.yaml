@@ -1,0 +1,12 @@
+version: '3'
+services:
+  wttr:
+    build:
+      context: .
+    image: wttr
+    container_name: wttr
+    tty: true
+    ports:
+      - 8080:8080
+
+

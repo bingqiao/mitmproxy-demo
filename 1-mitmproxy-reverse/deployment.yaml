@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wttr-reverse
+  labels:
+    app.kubernetes.io/name: wttr-app-reverse
+spec:
+  containers:
+  - name: wttr
+    image: wttr:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+      - containerPort: 8080
+        name: wttr-port
+  - name: mitmproxy-reverse
+    image: mitmproxy/mitmproxy
+    command: ["mitmweb", "--listen-port", "9180", "--mode", "reverse:http://localhost:8080"]
+    ports:
+      - containerPort: 9180
+        name: mitmproxy-prt-r
+      - containerPort: 8081
+        name: mitmweb-prt-r
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wttr-service-reverse
+spec:
+  selector:
+    app.kubernetes.io/name: wttr-app-reverse
+  ports:
+  - name: wttr-svc-port
+    protocol: TCP
+    port: 18080
+    targetPort: 8080
+  - name: mitmproxy-svc-port-r
+    protocol: TCP
+    port: 8080
+    targetPort: 9180
+  - name: mitmweb-svc-port-r
+    protocol: TCP
+    port: 8081
+    targetPort: 8081

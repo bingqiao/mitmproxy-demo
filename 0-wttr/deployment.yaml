@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wttr
+  labels:
+    app.kubernetes.io/name: wttr-app
+spec:
+  containers:
+  - name: wttr
+    image: wttr:20240308
+    ports:
+      - containerPort: 8080
+        name: wttr-port
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wttr-service
+spec:
+  selector:
+    app.kubernetes.io/name: wttr-app
+  ports:
+  - name: wttr-svc-port
+    protocol: TCP
+    port: 8080
+    targetPort: 8080

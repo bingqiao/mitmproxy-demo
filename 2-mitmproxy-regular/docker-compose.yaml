@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mitmproxy:
+    image: mitmproxy/mitmproxy
+    container_name: mitmproxy
+    tty: true
+    ports:
+      - 9080:9080
+      - 9081:9081
+    command: mitmweb --web-host 0.0.0.0 --listen-port 9080 --web-port 9081
+    volumes:
+      - ./mitmproxy:/home/mitmproxy/.mitmproxy
+  wttr:
+    environment:
+      - http_proxy=mitmproxy:9080
+      - https_proxy=mitmproxy:9080
+    build:
+      context: .
+    image: wttr-proxied
+    container_name: wttr
+    tty: true
+    ports:
+      - 8080:8080
+    depends_on:
+      - mitmproxy
+    volumes:
+      - ./mitmproxy/:/etc/ssl/certs/
+
