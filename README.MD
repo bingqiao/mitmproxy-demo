@@ -8,8 +8,8 @@ This is a demo project/tutorial for using [mitmproxy](https://mitmproxy.org) in 
 
 # Projects
 * 0-wttr: a simple golang app `wttr` that makes call to https://wttr.in for weather report
-* 1-mitmproxy-regular: `wttr` proxied by `mitmproxy` for outgoing requests
-* 2-mitmproxy-reverse: `wttr` proxied by `mitmproxy` in reverse mode for incoming requests
+* 1-mitmproxy-reverse: `wttr` proxied by `mitmproxy` in reverse mode for incoming requests
+* 2-mitmproxy-regular: `wttr` proxied by `mitmproxy` for outgoing requests
 * 3-mitmproxy-both: `wttr` proxied by two mitmproxy instances for both incoming and outgoing requestss
 
 N.B Kubernetes releated tutorial assumes a local cluster named `k8s-dev` has been created using [kind](https://kind.sigs.k8s.io).
